@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Author Dashboard – InkWell.pub</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 2rem;
+      font-family: Georgia, serif;
+      background-color: #121212;
+      color: white;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .reader-button {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .reader-button a {
+      background-color: #1f1f1f;
+      color: white;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border: 2px solid #444;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+      display: inline-block;
+    }
+
+    .reader-button a:hover {
+      background-color: #333;
+      transform: scale(1.05);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-card h2 {
+      font-size: 0.85rem;
+      margin: 0;
+      color: #ccc;
+    }
+
+    .stat-card p {
+      font-size: 1.4rem;
+      margin-top: 0.4rem;
+      font-weight: bold;
+    }
+
+    .book-block {
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .book-title {
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .heatmap-container {
+      margin-bottom: 1rem;
+    }
+
+    .heatmap-gradient {
+      height: 18px;
+      border-radius: 10px;
+      background: linear-gradient(to right,
+        hsl(210, 80%, 60%) 0%,    /* Blue */
+        hsl(150, 70%, 45%) 35%,   /* Green */
+        hsl(120, 60%, 40%) 60%,   /* Darker green */
+        hsl(45, 100%, 50%) 85%,   /* Yellow */
+        hsl(0, 100%, 50%) 100%    /* Red */
+      );
+      position: relative;
+      animation: fadeIn 0.6s ease-in-out;
+    }
+
+    .chapter-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-top: 6px;
+      padding: 0 2px;
+    }
+
+    .drop-marker {
+      font-size: 0.95rem;
+      color: #aaa;
+      line-height: 1;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .book-meta {
+      font-size: 0.85rem;
+      color: #bbb;
+      margin-top: 0.5rem;
+    }
+
+    .book-meta span {
+      margin-right: 1.2rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scaleX(0.95); }
+      to   { opacity: 1; transform: scaleX(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="reader-button">
+    <a href="https://beta-skt.vercel.app" target="_blank">📖 Open Reader</a>
+  </div>
+
+  <h1>Your Author Dashboard</h1>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <h2>Platform-wide Pages Read</h2>
+      <p>1,200,000</p>
+    </div>
+    <div class="stat-card">
+      <h2>Your Pages Read</h2>
+      <p>48,000</p>
+    </div>
+    <div class="stat-card">
+      <h2>Total Payout Pool – May 2025</h2>
+      <p>$42,000.00</p>
+    </div>
+    <div class="stat-card">
+      <h2>Your Payout – May 2025</h2>
+      <p>$924.00</p>
+    </div>
+    <div class="stat-card">
+      <h2>% of Engagement</h2>
+      <p>4.0%</p>
+    </div>
+  </div>
+
+  <div class="book-block">
+    <div class="book-title">Dracula</div>
+
+    <div class="heatmap-container">
+      <div class="drop-marker">
+        🚫 32
+      </div>
+      <div class="heatmap-gradient"></div>
+      <div class="chapter-labels">
+        <span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span><span>Q5</span>
+      </div>
+    </div>
+
+    <div class="book-meta">
+      <span>Average Rating: 4.8</span>
+      <span>Highlights: 32</span>
+      <span>Rereads: 15</span><br />
+      <span>Length: 346</span>
+      <span>% Completed: 91%</span>
+    </div>
+  </div>
+
+</body>
+</html>
