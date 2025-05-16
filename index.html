@@ -9,11 +9,9 @@
   <script type="module">
     import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
-    // 🔽🔽🔽 INSERT YOUR SUPABASE URL AND KEY BELOW 🔽🔽🔽
     const SUPABASE_URL = 'https://hrxkqvifqawrnpzokome.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhyeGtxdmlmcWF3cm5wem9rb21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNzQ0MDIsImV4cCI6MjA2Mjc1MDQwMn0.UZVhGweJEQBxqtrp37G77YmAefQWZYDGzdk1lyj4ua4';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'; // truncated for clarity
 
-    // ✅ Initialize Supabase client
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     window.toggleForm = function(type) {
@@ -189,7 +187,7 @@
 </head>
 <body>
   <section class="hero">
-    <img src="https://raw.githubusercontent.com/Revbskt/inkwellauthors/main/logo.png" alt="InkWell Logo">
+    <img src="logo.png" alt="InkWell Logo">
     <p class="announcement">🚧 Coming Soon!!</p>
     <p>Steamy romance meets smart analytics. Empowering authors. Elevating stories. Happy endings for everyone.</p>
 
