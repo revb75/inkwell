@@ -6,146 +6,95 @@
   <title>Upload Book – InkWell.pub</title>
   <style>
     body {
+      font-family: Georgia, serif;
       background-color: #121212;
-      color: #f0f0f0;
-      font-family: sans-serif;
+      color: white;
       padding: 2rem;
-      max-width: 600px;
-      margin: auto;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
+
     h1 {
-      text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1rem;
     }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: bold;
-    }
-    input[type="text"],
-    input[type="file"] {
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      max-width: 400px;
       width: 100%;
-      padding: 10px;
-      margin-bottom: 1.5rem;
-      background: #1e1e1e;
-      border: 1px solid #444;
-      color: white;
-      border-radius: 4px;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #007bff;
-      border: none;
-      color: white;
+
+    input, button {
+      padding: 0.75rem;
       font-size: 1rem;
       border-radius: 4px;
+      border: none;
+    }
+
+    input {
+      background-color: #1e1e1e;
+      color: white;
+      border: 1px solid #444;
+    }
+
+    button {
+      background-color: #ff3366;
+      color: white;
       cursor: pointer;
     }
+
     button:hover {
-      background: #0056b3;
+      background-color: #ff6699;
     }
-    #preview {
-      text-align: center;
-      margin-bottom: 1.5rem;
-    }
-    #preview img {
-      max-width: 200px;
-      border-radius: 8px;
-      border: 1px solid #333;
+
+    .response {
+      margin-top: 1rem;
+      color: #ccc;
     }
   </style>
 </head>
 <body>
-  <h1>📤 Upload a Book</h1>
+  <h1>Upload Your Book</h1>
   <form id="upload-form">
-    <label for="title">Book Title</label>
-    <input type="text" id="title" name="title" required />
-
-    <label for="cover">Cover Image</label>
-    <input type="file" id="cover" name="cover" accept="image/*" required />
-
-    <div id="preview"></div>
-
-    <label for="epub">EPUB File</label>
-    <input type="file" id="epub" name="epub" accept=".epub" required />
-
-    <button type="submit">Upload Book</button>
+    <input type="text" id="title" placeholder="Book Title" required />
+    <input type="file" id="file" accept=".epub" required />
+    <button type="submit">Upload</button>
   </form>
+  <div class="response" id="response"></div>
 
   <script>
-    const preview = document.getElementById('preview');
-    const coverInput = document.getElementById('cover');
-
-    coverInput.addEventListener('change', () => {
-      const file = coverInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          preview.innerHTML = `<img src="${reader.result}" alt="Cover Preview">`;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    document.getElementById('upload-form').addEventListener('submit', async (e) => {
+    document.getElementById('upload-form').addEventListener('submit', async function(e) {
       e.preventDefault();
+      const fileInput = document.getElementById('file');
+      const titleInput = document.getElementById('title');
+      const responseBox = document.getElementById('response');
 
-      const title = document.getElementById('title').value;
-      const coverFile = document.getElementById('cover').files[0];
-      const epubFile = document.getElementById('epub').files[0];
+      if (!fileInput.files.length) {
+        responseBox.textContent = 'Please select a file.';
+        return;
+      }
 
       const formData = new FormData();
-      formData.append('cover', coverFile);
-      formData.append('epub', epubFile);
-      formData.append('title', title);
-
-      // Replace with your Cloudflare Worker URL
-      const workerUrl = 'https://your-upload-worker.example.workers.dev';
+      formData.append('file', fileInput.files[0]);
+      formData.append('title', titleInput.value);
 
       try {
-        const uploadRes = await fetch(workerUrl, {
+        const res = await fetch('https://shiny-sea-2509.jones1975.workers.dev/', {
           method: 'POST',
           body: formData
         });
 
-        const { epub_url, cover_url } = await uploadRes.json();
-
-        // Send metadata to Supabase (no description for now)
-        const { data: session } = await supabase.auth.getSession();
-        const user = session?.session?.user;
-        if (!user) throw new Error("Not logged in");
-
-        await fetch('https://hrxkqvifqawrnpzokome.supabase.co/rest/v1/books', {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${supabase.auth.getToken()}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({
-            title,
-            epub_url,
-            cover_url,
-            author_id: user.id
-          })
-        });
-
-        alert("✅ Book uploaded successfully!");
+        const result = await res.text();
+        responseBox.textContent = result;
       } catch (err) {
         console.error(err);
-        alert("❌ Upload failed.");
+        responseBox.textContent = 'Upload failed. Please try again.';
       }
     });
-  </script>
-
-  <!-- Load Supabase -->
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-    window.supabase = createClient(
-      'https://hrxkqvifqawrnpzokome.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhyeGtxdmlmcWF3cm5wem9rb21lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxNzQ0MDIsImV4cCI6MjA2Mjc1MDQwMn0.UZVhGweJEQBxqtrp37G77YmAefQWZYDGzdk1lyj4ua4'
-    );
   </script>
 </body>
 </html>
