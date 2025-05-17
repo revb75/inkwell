@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Library – InkWell.pub</title>
+  <style>
+    body {
+      background: #121212;
+      color: white;
+      font-family: Georgia, serif;
+      padding: 2rem;
+      margin: 0;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    #authorFilter {
+      margin-bottom: 2rem;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .book {
+      background: #1f1f1f;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .book img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+
+    .book h3 {
+      font-size: 1rem;
+      margin: 0.5rem 0 0.3rem;
+    }
+
+    .book p {
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    .book a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      color: #4fc3f7;
+      text-decoration: none;
+    }
+
+    .book a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 InkWell Library</h1>
+  <select id="authorFilter">
+    <option value="">All Authors</option>
+  </select>
+  <div class="grid" id="library"></div>
+
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabase = createClient(
+      'https://YOUR_PROJECT.supabase.co',
+      'YOUR_PUBLIC_ANON_KEY'
+    );
+
+    const libraryDiv = document.getElementById('library');
+    const filterSelect = document.getElementById('authorFilter');
+    let allBooks = [];
+
+    async function loadBooks() {
+      const { data, error } = await supabase.from('books').select('*').order('title');
+      if (error) {
+        libraryDiv.innerHTML = "<p>Error loading books.</p>";
+        console.error(error);
+        return;
+      }
+
+      allBooks = data;
+      populateAuthors(data);
+      renderBooks(data);
+    }
+
+    function populateAuthors(books) {
+      const authors = Array.from(new Set(books.map(b => b.author || "Unknown"))).sort();
+      authors.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        filterSelect.appendChild(option);
+      });
+    }
+
+    function renderBooks(books) {
+      libraryDiv.innerHTML = '';
+      books.forEach(book => {
+        const el = document.createElement('div');
+        el.className = 'book';
+        el.innerHTML = `
+          <img src="${book.cover_url}" alt="Cover for ${book.title}" />
+          <h3>${book.title}</h3>
+          <p>${book.author || 'Unknown author'}</p>
+          <a href="reader.html?book_id=${book.id}">Read Now</a>
+        `;
+        libraryDiv.appendChild(el);
+      });
+    }
+
+    filterSelect.addEventListener('change', () => {
+      const author = filterSelect.value;
+      const filtered = author ? allBooks.filter(b => b.author === author) : allBooks;
+      renderBooks(filtered);
+    });
+
+    loadBooks();
+  </script>
+</body>
+</html>
