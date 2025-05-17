@@ -15,33 +15,31 @@
 
     .sidebar {
       width: 60px;
-      background-color: #1f1f1f;
-      height: 100vh;
+      background-color: #1a1a1a;
+      padding-top: 1rem;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding-top: 1rem;
-      position: fixed;
-      top: 0;
-      left: 0;
-      transition: width 0.3s ease;
+      gap: 1rem;
+      min-height: 100vh;
     }
 
-    .sidebar button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 0.8rem;
-      margin: 1rem 0;
-      cursor: pointer;
+    .sidebar a {
       writing-mode: vertical-rl;
       transform: rotate(180deg);
+      text-decoration: none;
+      color: #ccc;
+      font-size: 0.8rem;
+      transition: color 0.2s;
     }
 
-    .main-content {
-      margin-left: 60px;
+    .sidebar a:hover {
+      color: white;
+    }
+
+    .main {
+      flex-grow: 1;
       padding: 2rem;
-      flex: 1;
     }
 
     h1 {
@@ -143,12 +141,11 @@
 </head>
 <body>
   <div class="sidebar">
-    <button onclick="location.href='dashboard.html'">Dashboard</button>
-    <button onclick="location.href='upload.html'">Upload</button>
-    <button onclick="location.href='reader.html'">Reader</button>
+    <a href="/dashboard.html">Dashboard</a>
+    <a href="/upload.html">Upload</a>
+    <a href="https://inkwell-kxy6.vercel.app" target="_blank">Reader</a>
   </div>
-
-  <div class="main-content">
+  <div class="main">
     <h1>Your Author Dashboard</h1>
 
     <div class="stats-grid">
