@@ -10,73 +10,44 @@
       font-family: Georgia, serif;
       background-color: #121212;
       color: white;
+      display: flex;
+    }
+
+    .sidebar {
+      width: 60px;
+      background-color: #1f1f1f;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+      position: fixed;
+      top: 0;
+      left: 0;
+      transition: width 0.3s ease;
+    }
+
+    .sidebar button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 0.8rem;
+      margin: 1rem 0;
+      cursor: pointer;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+    }
+
+    .main-content {
+      margin-left: 60px;
+      padding: 2rem;
+      flex: 1;
     }
 
     h1 {
       text-align: center;
       font-size: 2.2rem;
-      margin: 2rem 0;
-    }
-
-    .sidebar-toggle {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #1e1e1e;
-      color: white;
-      border: none;
-      padding: 0.5rem 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .sidebar {
-      position: fixed;
-      left: -260px;
-      top: 0;
-      bottom: 0;
-      width: 260px;
-      background-color: #1e1e1e;
-      padding: 1.5rem;
-      transition: left 0.3s ease;
-      z-index: 1000;
-    }
-
-    .sidebar.open {
-      left: 0;
-    }
-
-    .sidebar img {
-      max-width: 160px;
-      display: block;
-      margin: 0 auto 2rem;
-      filter: drop-shadow(0 0 8px #fff);
-    }
-
-    .sidebar a {
-      display: block;
-      margin-bottom: 1rem;
-      color: white;
-      text-decoration: none;
-      padding: 0.75rem 1rem;
-      background: #2a2a2a;
-      border-radius: 6px;
-      transition: background 0.2s;
-    }
-
-    .sidebar a:hover {
-      background: #444;
-    }
-
-    .main-content {
-      margin-left: 0;
-      padding: 2rem;
-      transition: margin-left 0.3s ease;
-    }
-
-    .sidebar.open ~ .main-content {
-      margin-left: 260px;
+      margin-bottom: 2rem;
     }
 
     .stats-grid {
@@ -171,14 +142,10 @@
   </style>
 </head>
 <body>
-
-  <button class="sidebar-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
-
   <div class="sidebar">
-    <img src="/inkwell-logo.png" alt="InkWell Logo" />
-    <a href="#">Dashboard</a>
-    <a href="/upload.html">Upload</a>
-    <a href="https://beta-skt.vercel.app" target="_blank">Reader</a>
+    <button onclick="location.href='dashboard.html'">Dashboard</button>
+    <button onclick="location.href='upload.html'">Upload</button>
+    <button onclick="location.href='reader.html'">Reader</button>
   </div>
 
   <div class="main-content">
@@ -229,6 +196,5 @@
       </div>
     </div>
   </div>
-
 </body>
 </html>
